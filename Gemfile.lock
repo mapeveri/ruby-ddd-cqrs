@@ -97,6 +97,15 @@ GEM
       dotenv (= 3.1.2)
       railties (>= 6.1)
     drb (2.2.3)
+    dry-auto_inject (1.1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-container (0.11.0)
+      concurrent-ruby (~> 1.0)
+    dry-core (1.1.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
     ed25519 (1.4.0)
     erb (5.0.2)
     erubi (1.13.1)
@@ -348,6 +357,8 @@ DEPENDENCIES
   brakeman
   debug
   dotenv-rails
+  dry-auto_inject
+  dry-container
   kamal
   pg (~> 1.1)
   puma (>= 5.0)
