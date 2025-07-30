@@ -32,3 +32,6 @@
 /config/master.key
 
 /docker/data/*
+
+# Ide
+.idea/
