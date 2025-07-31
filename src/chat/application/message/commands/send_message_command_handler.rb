@@ -16,10 +16,20 @@ module Chat::Application::Message::Commands
       receiver_id = UserId.of(command.receiver_id)
       content = MessageContent.of(command.content)
 
+      self.ensure_message_does_not_exist(id)
+
       message = Message.send(id: id, sender_id: sender_id, receiver_id: receiver_id, content: content)
 
       @message_repository.save(message)
       @event_bus.publish(message.pull_domain_events)
     end
+
+    private
+      def ensure_message_does_not_exist(id)
+        message = @message_repository.find_by_id(id)
+        unless message.nil?
+          raise Chat::Domain::Message::MessageAlreadyExistsError.new(id.to_s)
+        end
+      end
   end
 end

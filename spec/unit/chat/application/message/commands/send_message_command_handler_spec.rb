@@ -5,6 +5,10 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
   let(:event_bus) { EventBusMock.new }
   let(:handler) { described_class.new(message_repository: message_repository, event_bus: event_bus) }
 
+  after do
+    message_repository.clear
+  end
+
   describe 'when #call is called with invalid values' do
     invalid_cases = {
       'id' => :with_invalid_id,
@@ -14,7 +18,7 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
     }
 
     invalid_cases.each do |field, method|
-      it "should raise error when #{field} is invalid" do
+      it "should raise an error when #{field} is invalid" do
         invalid_command = SendMessageCommandMother.send(method)
 
         expect {
@@ -24,6 +28,22 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
     end
   end
 
+  describe 'when a #call method is called with invalid data' do
+    message_id = SecureRandom.uuid
+    before do
+      message_repository.add(MessageMother.with_id(message_id))
+    end
+
+    it 'should raise an error when the message already exists' do
+      command = SendMessageCommandMother.with_id(message_id)
+
+      handler.call command
+
+      expect {
+        handler.call command
+      }.to raise_error(Chat::Domain::Message::MessageAlreadyExistsError)
+    end
+  end
 
   describe 'when a #call method is called' do
     it 'should send a message' do

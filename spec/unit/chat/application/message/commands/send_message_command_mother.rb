@@ -17,6 +17,10 @@ class SendMessageCommandMother
     create
   end
 
+  def self.with_id(id)
+    create(id: id)
+  end
+
   def self.with_invalid_id
     create(id: '')
   end

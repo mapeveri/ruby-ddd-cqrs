@@ -3,17 +3,23 @@ class MessageRepositoryMock < Chat::Domain::Message::MessageRepository
     @messages = []
   end
 
-  def save(message)
+  def add(message)
     @messages << message
+  end
+
+  def clear
+    @messages.clear
   end
 
   def stored
     @messages.dup
   end
 
-  protected
+  def find_by_id(id)
+    @messages.find { |message| message.id == id }
+  end
 
-  def clear
-    @messages.clear
+  def save(message)
+    @messages << message
   end
 end
