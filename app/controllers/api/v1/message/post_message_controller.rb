@@ -1,4 +1,4 @@
-class V1::Message::PostMessageController < ApplicationController
+class Api::V1::Message::PostMessageController < ApplicationController
   def call
     command = Chat::Application::Message::Commands::SendMessageCommand.new(
       id: params[:id],
@@ -7,7 +7,7 @@ class V1::Message::PostMessageController < ApplicationController
       content: params[:content]
     )
 
-    Container[:command_bus].call(command)
+    Container[:command_bus].execute(command)
     render json: {}, status: :created
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity

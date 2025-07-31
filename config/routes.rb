@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  namespace :v1 do
-    namespace :message do
-      post "post_message", to: "post_message#call"
+  namespace :api do
+    namespace :v1 do
+      namespace :message do
+        post '/', to: 'post_message#call'
+      end
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
