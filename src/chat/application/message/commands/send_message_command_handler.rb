@@ -4,8 +4,9 @@ module Chat::Application::Message::Commands
   Message = Chat::Domain::Message::Message
 
   class SendMessageCommandHandler
-    def initialize(message_repository:)
+    def initialize(message_repository:, event_bus:)
       @message_repository = message_repository
+      @event_bus = event_bus
     end
 
     def call(command)
@@ -14,9 +15,10 @@ module Chat::Application::Message::Commands
       receiver_id = UserId.of(command.receiver_id)
       content = command.content
 
-      message = Message.create(id: id, sender_id: sender_id, receiver_id: receiver_id, content: content)
+      message = Message.send(id: id, sender_id: sender_id, receiver_id: receiver_id, content: content)
 
       @message_repository.save(message)
+      @event_bus.publish(message.pull_domain_events)
     end
   end
 end
