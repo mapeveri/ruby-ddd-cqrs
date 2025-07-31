@@ -31,4 +31,14 @@ class Chat::Domain::Message::Message < Shared::Domain::AggregateRoot
 
     message
   end
+
+  def self.from_primitives(data)
+    new(
+      id: Chat::Domain::Message::MessageId.from_primitives(data[:id]),
+      sender_id: Chat::Domain::User::UserId.from_primitives(data[:sender_id]),
+      receiver_id: Chat::Domain::User::UserId.from_primitives(data[:receiver_id]),
+      content: Chat::Domain::Message::MessageContent.from_primitives(data[:content]),
+      created_at: data[:created_at]
+    )
+  end
 end
