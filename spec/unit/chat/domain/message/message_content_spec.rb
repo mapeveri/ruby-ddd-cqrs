@@ -8,7 +8,7 @@ RSpec.describe Chat::Domain::Message::MessageContent, type: :value_object do
     end
 
     it 'raises error when content is nil' do
-      expect { 
+      expect {
         described_class.of(nil)
       }.to raise_error(ArgumentError)
     end
