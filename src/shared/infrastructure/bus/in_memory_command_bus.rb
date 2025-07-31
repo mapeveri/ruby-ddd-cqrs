@@ -11,10 +11,9 @@ module Shared
         end
 
         def execute(command)
-          handler_class = @handlers[command.class]
-          raise "No handler registered for #{command.class}" unless handler_class
+          handler = @handlers[command.class]
+          raise "No handler registered for #{command.class}" unless handler
 
-          handler = handler_class.new
           handler.call(command)
         end
       end
