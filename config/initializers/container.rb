@@ -1,4 +1,4 @@
-require 'dry/auto_inject'
+require "dry/auto_inject"
 
 class Container
   extend Dry::Container::Mixin
@@ -10,7 +10,7 @@ class Container
   register :message_repository do
     Chat::Infrastructure::Persistence::Repositories::ActiveRecordMessageRepository.new
   end
-  
+
   register :command_bus do
     Shared::Infrastructure::Bus::InMemoryCommandBus.new .tap do |bus|
       bus.register(
