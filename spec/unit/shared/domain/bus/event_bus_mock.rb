@@ -9,7 +9,7 @@ class EventBusMock < Shared::Domain::Bus::EventBus
     puts "Subscribing #{event_class} to #{handler}"
   end
 
-  def publish(*events)
-    @domain_events.concat(events)
+  def publish(events)
+    events.each { |event| @domain_events << event }
   end
 end

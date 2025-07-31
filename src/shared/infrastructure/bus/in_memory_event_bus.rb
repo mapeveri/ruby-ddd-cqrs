@@ -8,8 +8,10 @@ class Shared::Infrastructure::Bus::InMemoryEventBus < Shared::Domain::Bus::Event
     @subscribers[event_class] << handler
   end
 
-  def publish(event)
-    event_class = event.class
-    @subscribers[event_class].each { |handler| handler.call(event) }
+  def publish(events)
+    events.each do |event|
+      event_class = event.class
+      @subscribers[event_class].each { |handler| handler.call(event) }
+    end
   end
 end
