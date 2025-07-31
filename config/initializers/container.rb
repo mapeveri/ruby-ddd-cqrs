@@ -1,5 +1,3 @@
-require "dry/auto_inject"
-
 class Container
   extend Dry::Container::Mixin
 
@@ -21,8 +19,4 @@ class Container
       )
     end
   end
-end
-
-module DI
-  Import = Dry::AutoInject(Container)
 end
