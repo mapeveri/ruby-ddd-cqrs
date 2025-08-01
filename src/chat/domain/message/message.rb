@@ -25,11 +25,11 @@ class Chat::Domain::Message::Message < Shared::Domain::AggregateRoot
 
     message.record(
       Chat::Domain::Message::MessageSent.new(
-        id: id,
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        content: content,
-        chat_id: chat_id,
+        id: id.to_s,
+        sender_id: sender_id.to_s,
+        receiver_id: receiver_id.to_s,
+        content: content.to_s,
+        chat_id: chat_id.to_s,
         created_at: created_at
       )
     )

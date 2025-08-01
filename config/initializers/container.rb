@@ -1,17 +1,16 @@
 class Container
   extend Dry::Container::Mixin
 
-  # register :user_repository do
-  #  Chat::Infrastructure::Persistence::Repositories::ActiveRecordUserRepository.new
-  # end
-
   register :message_repository do
     Chat::Infrastructure::Persistence::Repositories::ActiveRecordMessageRepository.new
   end
 
   register :event_bus do
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
-      # Register subscribers
+      bus.subscribe(
+        Chat::Domain::Message::MessageSent,
+        Chat::Infrastructure::Projection::AddMessageProjectionHandler.new
+      )
     end
   end
 

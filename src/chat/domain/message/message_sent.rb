@@ -10,4 +10,15 @@ class Chat::Domain::Message::MessageSent < Shared::Domain::DomainEvent
     @chat_id = chat_id
     @created_at = created_at
   end
+
+  def to_h
+    {
+      id: id,
+      sender_id: sender_id,
+      receiver_id: receiver_id,
+      content: content,
+      chat_id: chat_id,
+      created_at: created_at
+    }
+  end
 end
