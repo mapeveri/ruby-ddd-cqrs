@@ -1,5 +1,5 @@
 class Chat::Infrastructure::Projection::AddMessageProjectionHandler
-  def self.call(event)
+  def call(event)
     Rails.logger.info("[AddMessageProjectionHandler] -> #{event.to_h.to_json}")
 
     Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector.store_message(
