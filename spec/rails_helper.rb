@@ -71,4 +71,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   Dir[Rails.root.join('spec/unit/**/*.rb')].each { |f| require f }
+
+  config.before(:each) do
+    $redis.flushdb
+  end
 end

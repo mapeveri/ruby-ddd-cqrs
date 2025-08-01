@@ -5,11 +5,26 @@ class Container
     Chat::Infrastructure::Persistence::ActiveRecord::Repositories::ActiveRecordMessageRepository.new
   end
 
+  register :get_messages_read_model do
+    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new
+  end
+
   register :event_bus do
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
         Chat::Infrastructure::Projection::AddMessageProjectionHandler.new
+      )
+    end
+  end
+
+  register :query_bus do
+    Shared::Infrastructure::Bus::InMemoryQueryBus.new .tap do |bus|
+      bus.register(
+        Chat::Application::Message::Queries::GetMessagesQuery,
+        Chat::Application::Message::Queries::GetMessagesQueryHandler.new(
+          get_messages_read_model: Container[:get_messages_read_model],
+        )
       )
     end
   end

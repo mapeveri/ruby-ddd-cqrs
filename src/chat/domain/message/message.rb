@@ -37,6 +37,17 @@ class Chat::Domain::Message::Message < Shared::Domain::AggregateRoot
     message
   end
 
+  def to_h
+    {
+      id: id,
+      sender_id: sender_id,
+      receiver_id: receiver_id,
+      content: content,
+      chat_id: chat_id,
+      created_at: created_at
+    }
+  end
+
   def self.from_primitives(data)
     new(
       id: Chat::Domain::Message::MessageId.from_primitives(data[:id]),
