@@ -13,3 +13,15 @@ services:
     ports:
       - "5435:5432"
     restart: unless-stopped
+    
+  redis:
+    image: redis/redis-stack-server:7.2.0-v18
+    container_name: redis_stack
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/data/redis:/data
+    restart: unless-stopped
+
+volumes:
+  redis_data:
