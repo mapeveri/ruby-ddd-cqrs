@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      namespace :message do
-        post "/", to: "post_message#call"
+      namespace :messages do
+        post "/", to: "post_messages#call"
         get "/:chat_id", to: "get_messages#call"
       end
     end

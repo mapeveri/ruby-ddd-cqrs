@@ -1,4 +1,4 @@
-class Api::V1::Message::PostMessageController < ApplicationController
+class Api::V1::Messages::PostMessagesController < ApplicationController
   def initialize(command_bus: Container[:command_bus])
     @command_bus = command_bus
     super()

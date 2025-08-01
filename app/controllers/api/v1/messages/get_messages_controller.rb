@@ -1,4 +1,4 @@
-class Api::V1::Message::GetMessagesController < ApplicationController
+class Api::V1::Messages::GetMessagesController < ApplicationController
   def initialize(query_bus: Container[:query_bus])
     @query_bus = query_bus
     super()

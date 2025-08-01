@@ -16,10 +16,10 @@ RSpec.describe "Given a GetMessagesController", type: :request do
     }
   end
 
-  describe "GET /api/v1/message/:chat_id" do
+  describe "GET /api/v1/messages/:chat_id" do
     it "returns 200 OK" do
-      post "/api/v1/message", params: message_payload
-      get "/api/v1/message/#{chat_id}"
+      post "/api/v1/messages", params: message_payload
+      get "/api/v1/messages/#{chat_id}"
 
       json = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)

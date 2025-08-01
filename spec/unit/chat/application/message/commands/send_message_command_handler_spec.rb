@@ -35,7 +35,7 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
       message_repository.add(MessageMother.with_id(message_id))
     end
 
-    it 'should raise an error when the message already exists' do
+    it 'should raise an error when the messages already exists' do
       command = SendMessageCommandMother.with_id(message_id)
 
       handler.call command
@@ -47,7 +47,7 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
   end
 
   describe 'when a #call method is called' do
-    it 'should send a message' do
+    it 'should send a messages' do
       command = SendMessageCommandMother.random
 
       handler.call command

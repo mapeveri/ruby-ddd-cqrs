@@ -1,7 +1,7 @@
 require 'ostruct'
 require 'rails_helper'
 
-RSpec.describe Api::V1::Message::GetMessagesController, type: :controller do
+RSpec.describe Api::V1::Messages::GetMessagesController, type: :controller do
   let(:chat_id) { SecureRandom.uuid }
   let(:messages_array) { [ MessageMother.random.to_h, MessageMother.random.to_h ] }
   let(:mock_query_bus) { double('QueryBus', ask: OpenStruct.new(content: messages_array)) }
