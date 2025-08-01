@@ -13,10 +13,10 @@ RSpec.describe Api::V1::Message::PostMessageController, type: :controller do
       content: content
     }
   end
-  let(:mock_command_bus) { double('CommandBus', call: true) }
+  let(:mock_command_bus) { double('CommandBus', execute: true) }
+  let(:controller) { described_class.new(command_bus: mock_command_bus) }
 
   before do
-    allow(Container).to receive(:[]).with(:command_bus).and_return(mock_command_bus)
     allow(controller).to receive(:params).and_return(params_hash)
   end
 
