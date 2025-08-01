@@ -2,7 +2,7 @@ class Container
   extend Dry::Container::Mixin
 
   register :message_repository do
-    Chat::Infrastructure::Persistence::Repositories::ActiveRecordMessageRepository.new
+    Chat::Infrastructure::Persistence::ActiveRecord::Repositories::ActiveRecordMessageRepository.new
   end
 
   register :event_bus do
