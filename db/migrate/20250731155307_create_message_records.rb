@@ -5,6 +5,7 @@ class CreateMessageRecords < ActiveRecord::Migration[8.0]
       t.string :sender_id
       t.string :receiver_id
       t.text :content
+      t.string :chat_id
       t.datetime :created_at
     end
   end

@@ -9,7 +9,8 @@ class Api::V1::Message::PostMessageController < ApplicationController
       id: params[:id],
       sender_id: params[:sender_id],
       receiver_id: params[:receiver_id],
-      content: params[:content]
+      content: params[:content],
+      chat_id: params[:chat_id]
     )
 
     @command_bus.execute(command)

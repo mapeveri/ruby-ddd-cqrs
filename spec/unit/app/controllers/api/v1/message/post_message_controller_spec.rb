@@ -4,13 +4,15 @@ RSpec.describe Api::V1::Message::PostMessageController, type: :controller do
   let(:id) { SecureRandom.uuid }
   let(:sender_id) { SecureRandom.uuid }
   let(:receiver_id) { SecureRandom.uuid }
+  let(:chat_id) { SecureRandom.uuid }
   let(:content) { 'Hello, Bob!' }
   let(:params_hash) do
     {
       id: id,
       sender_id: sender_id,
       receiver_id: receiver_id,
-      content: content
+      content: content,
+      chat_id: chat_id
     }
   end
   let(:mock_command_bus) { double('CommandBus', execute: true) }

@@ -3,6 +3,7 @@ module Chat::Application::Message::Commands
   MessageId = Chat::Domain::Message::MessageId
   Message = Chat::Domain::Message::Message
   MessageContent = Chat::Domain::Message::MessageContent
+  ChatId = Chat::Domain::Message::ChatId
 
   class SendMessageCommandHandler
     def initialize(message_repository:, event_bus:)
@@ -15,10 +16,17 @@ module Chat::Application::Message::Commands
       sender_id = UserId.of(command.sender_id)
       receiver_id = UserId.of(command.receiver_id)
       content = MessageContent.of(command.content)
+      chat_id = ChatId.of(command.chat_id)
 
       self.ensure_message_does_not_exist(id)
 
-      message = Message.send(id: id, sender_id: sender_id, receiver_id: receiver_id, content: content)
+      message = Message.send(
+        id: id,
+        sender_id: sender_id,
+        receiver_id: receiver_id,
+        content: content,
+        chat_id: chat_id
+      )
 
       @message_repository.save(message)
       @event_bus.publish(message.pull_domain_events)

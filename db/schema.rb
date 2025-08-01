@@ -18,6 +18,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_31_155307) do
     t.string "sender_id"
     t.string "receiver_id"
     t.text "content"
+    t.string "chat_id"
     t.datetime "created_at"
   end
 end

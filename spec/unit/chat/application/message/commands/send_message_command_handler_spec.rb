@@ -14,7 +14,8 @@ RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, 
       'id' => :with_invalid_id,
       'sender_id' => :with_invalid_sender_id,
       'receiver_id' => :with_invalid_receiver_id,
-      'content' => :with_invalid_content
+      'content' => :with_invalid_content,
+      'chat_id' => :with_invalid_chat_id
     }
 
     invalid_cases.each do |field, method|
