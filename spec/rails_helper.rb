@@ -70,7 +70,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  Dir[Rails.root.join('spec/unit/**/*.rb')].each { |f| require f }
+  Dir[Rails.root.join('spec/unit/**/*.rb')].reject { |f| f =~ /_spec\.rb$/ }.each { |f| require f }
 
   config.before(:each) do
     $redis.flushdb
