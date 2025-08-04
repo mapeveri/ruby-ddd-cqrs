@@ -35,3 +35,6 @@
 
 # Ide
 .idea/
+
+# js dependencies
+/node_modules/
