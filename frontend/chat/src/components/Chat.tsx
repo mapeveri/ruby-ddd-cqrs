@@ -22,7 +22,6 @@ export default function Chat() {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [loading, setLoading] = useState(true);
   const [onlineUsers, setOnlineUsers] = useState<UserType[]>([]);
-  const [receiver, setReceiver] = useState<UserType | null>(null);
   const chatRef = useRef<HTMLDivElement | null>(null);
   const session = useSession();
 
@@ -55,9 +54,6 @@ export default function Chat() {
         const users: UserType[] = await res.json();
         const others = users.filter(u => u.user_id !== session.user_id);
         setOnlineUsers(others);
-        if (!receiver && others.length > 0) {
-          setReceiver(others[0]);
-        }
       } catch (err) {
         console.error(err);
       }
@@ -66,7 +62,7 @@ export default function Chat() {
     fetchOnlineUsers();
     const interval = setInterval(fetchOnlineUsers, 5000);
     return () => clearInterval(interval);
-  }, [session, receiver]);
+  }, [session]);
 
   useEffect(() => {
     if (chatRef.current) {
@@ -75,12 +71,12 @@ export default function Chat() {
   }, [messages]);
 
   const addMessage = async (text: string) => {
-    if (!session || !receiver) return;
+    if (!session) return;
 
     const newMsg: MessageType = {
       id: crypto.randomUUID(),
       sender_id: session.user_id,
-      receiver_id: receiver.user_id,
+      receiver_id: session.user_id,
       content: text,
       chat_id: CHAT_ID,
     };
@@ -116,11 +112,10 @@ export default function Chat() {
               <li
                 key={user.user_id}
                 className={`cursor-pointer px-3 py-1 rounded-full text-sm ${
-                  receiver?.user_id === user.user_id
+                  session?.user_id === user.user_id
                     ? 'bg-indigo-600 text-white'
                     : 'bg-gray-200 text-gray-700'
                 }`}
-                onClick={() => setReceiver(user)}
               >
                 {user.name}
               </li>
@@ -149,7 +144,7 @@ export default function Chat() {
       </main>
 
       <footer className="p-4 bg-white border-t border-gray-300 shadow-inner">
-        {receiver ? (
+        {session?.user_id ? (
           <InputBox onSend={addMessage} />
         ) : (
           <div className="text-center text-gray-500">
