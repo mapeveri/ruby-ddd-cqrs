@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Users::OnlineUsers", type: :request do
   describe "GET /api/v1/users/online_users" do
     before do
-      session_data = { token: "some-token", name: "Guest_1234" }.to_json
+      session_data = { user_id: "some-token", name: "Guest_1234" }.to_json
       $redis.set("session:123", session_data)
     end
 
@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::Users::OnlineUsers", type: :request do
       expect(json).not_to be_empty
 
       json.each do |user|
-        expect(user).to include("token", "name")
+        expect(user).to include("user_id", "name")
         expect(user["name"]).to match(/^Guest_/)
       end
     end
