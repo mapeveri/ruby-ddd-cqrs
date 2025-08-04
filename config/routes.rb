@@ -5,6 +5,9 @@ Rails.application.routes.draw do
         post "/", to: "post_messages#call"
         get "/:chat_id", to: "get_messages#call"
       end
+      namespace :users do
+        post "/join", to: "post_join#call"
+      end
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
