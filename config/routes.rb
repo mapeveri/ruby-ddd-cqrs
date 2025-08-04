@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       end
       namespace :users do
         post "/join", to: "post_join#call"
+        get "/online_users", to: "online_users#call"
       end
     end
   end
