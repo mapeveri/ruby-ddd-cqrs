@@ -13,15 +13,15 @@ class Container
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Projection::AddMessageProjectionSubscriber.new
+        Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Ws::ActionCable::BroadcastMessageSentSubscriber.new
+        Chat::Infrastructure::Subscribers::Message::Ws::ActionCable::BroadcastMessageSentSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Ai::GenerateEmbeddingForMessageChatSubscriber.new(
+        Chat::Infrastructure::Subscribers::Message::Ai::GenerateEmbeddingForMessageChatSubscriber.new(
           message_repository: Container[:message_repository],
         )
       )

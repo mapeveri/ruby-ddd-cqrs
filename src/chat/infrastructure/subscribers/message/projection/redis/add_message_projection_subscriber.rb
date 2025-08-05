@@ -1,4 +1,4 @@
-class Chat::Infrastructure::Subscribers::Projection::AddMessageProjectionSubscriber
+class Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber
   def call(event)
     Rails.logger.info("[AddMessageProjectionSubscriber] -> #{event.to_h.to_json}")
 

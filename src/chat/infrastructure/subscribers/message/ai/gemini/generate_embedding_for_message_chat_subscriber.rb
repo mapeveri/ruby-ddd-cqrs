@@ -2,7 +2,7 @@ module Chat
   MessageId = Chat::Domain::Message::MessageId
   GeminiEmbeddingClient = Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
 
-  class Infrastructure::Subscribers::Ai::GenerateEmbeddingForMessageChatSubscriber
+  class Infrastructure::Subscribers::Message::Ai::GenerateEmbeddingForMessageChatSubscriber
     def initialize(message_repository:)
       @message_repository = message_repository
     end
