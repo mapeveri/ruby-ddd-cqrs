@@ -1,5 +1,7 @@
-class Chat::Infrastructure::Ws::ActionCable::BroadcastMessageSentEventHandler
+class Chat::Infrastructure::Subscribers::Ws::ActionCable::BroadcastMessageSentSubscriber
   def call(event)
+    Rails.logger.info("[BroadcastMessageSentSubscriber] -> #{event.to_h.to_json}")
+
     ActionCable.server.broadcast(
       "chat_#{event.chat_id}",
       {

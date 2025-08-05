@@ -17,7 +17,7 @@ class Container
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Ws::ActionCable::BroadcastMessageSentEventHandler.new
+        Chat::Infrastructure::Subscribers::Ws::ActionCable::BroadcastMessageSentSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
