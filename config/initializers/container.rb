@@ -13,7 +13,7 @@ class Container
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Projection::AddMessageProjectionHandler.new
+        Chat::Infrastructure::Subscribers::Projection::AddMessageProjectionSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
