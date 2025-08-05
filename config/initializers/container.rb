@@ -15,6 +15,10 @@ class Container
         Chat::Domain::Message::MessageSent,
         Chat::Infrastructure::Projection::AddMessageProjectionHandler.new
       )
+      bus.subscribe(
+        Chat::Domain::Message::MessageSent,
+        Chat::Infrastructure::Ws::ActionCable::BroadcastMessageSentEventHandler.new
+      )
     end
   end
 

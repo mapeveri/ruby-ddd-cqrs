@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Message from './Message';
 import InputBox from './InputBox';
 import { useSession } from '../hooks/useSession.ts';
+import { useCable } from "../hooks/useCable.ts";
 
 type MessageType = {
   id: string;
@@ -25,6 +26,14 @@ export default function Chat() {
   const chatRef = useRef<HTMLDivElement | null>(null);
   const session = useSession();
 
+  useCable(CHAT_ID, (msg: MessageType) => {
+    setMessages((prev) => {
+      if (prev.some(m => m.id === msg.id)) return prev;
+      return [...prev, msg];
+    });
+  });
+
+  
   useEffect(() => {
     if (!session) return;
 
