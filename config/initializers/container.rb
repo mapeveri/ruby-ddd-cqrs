@@ -13,7 +13,7 @@ class Container
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber.new
+        Chat::Infrastructure::Subscribers::Message::Projection::Redis::AddMessageProjectionSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
@@ -21,7 +21,7 @@ class Container
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ai::GenerateEmbeddingForMessageChatSubscriber.new(
+        Chat::Infrastructure::Subscribers::Message::Ai::Gemini::GenerateEmbeddingForContentMessageSubscriber.new(
           message_repository: Container[:message_repository],
         )
       )
