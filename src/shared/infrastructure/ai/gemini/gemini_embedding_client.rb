@@ -32,4 +32,3 @@ class Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
     result.dig("embedding", "values")
   end
 end
-
