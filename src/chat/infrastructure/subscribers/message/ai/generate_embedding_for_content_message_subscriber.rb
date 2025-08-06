@@ -1,6 +1,6 @@
 module Chat
   MessageId = Chat::Domain::Message::MessageId
-  GeminiEmbeddingClient = Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
+  GeminiEmbeddingClient = Shared::Infrastructure::Ai::GeminiEmbeddingClient
 
   class Infrastructure::Subscribers::Message::Ai::Gemini::GenerateEmbeddingForContentMessageSubscriber
     def initialize(active_record_embedding_writer:)

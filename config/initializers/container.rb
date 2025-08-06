@@ -17,15 +17,15 @@ class Container
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Projection::Redis::AddMessageProjectionSubscriber.new
+        Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ws::ActionCable::BroadcastMessageSentSubscriber.new
+        Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber.new
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ai::Gemini::GenerateEmbeddingForContentMessageSubscriber.new(
+        Chat::Infrastructure::Subscribers::Message::Ai::GenerateEmbeddingForContentMessageSubscriber.new(
           active_record_embedding_writer: Container[:active_record_embedding_writer],
         )
       )

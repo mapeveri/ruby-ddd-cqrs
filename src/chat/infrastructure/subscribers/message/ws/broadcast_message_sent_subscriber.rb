@@ -1,4 +1,4 @@
-class Chat::Infrastructure::Subscribers::Message::Ws::ActionCable::BroadcastMessageSentSubscriber
+class Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber
   def call(event)
     Rails.logger.info("[BroadcastMessageSentSubscriber] -> #{event.to_h.to_json}")
 
