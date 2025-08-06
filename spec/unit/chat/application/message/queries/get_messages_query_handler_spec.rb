@@ -35,7 +35,7 @@ RSpec.describe Chat::Application::Message::Queries::GetMessagesQueryHandler, typ
 
       result = handler.call query
 
-      expect(result.size).to eq(2)
+      expect(result.messages.size).to eq(2)
     end
   end
 end
