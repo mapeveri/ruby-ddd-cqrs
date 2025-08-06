@@ -9,6 +9,10 @@ class Container
     Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new
   end
 
+  register :active_record_embedding_writer do
+    Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new
+  end
+
   register :event_bus do
     Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
       bus.subscribe(
@@ -22,7 +26,7 @@ class Container
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
         Chat::Infrastructure::Subscribers::Message::Ai::Gemini::GenerateEmbeddingForContentMessageSubscriber.new(
-          message_repository: Container[:message_repository],
+          active_record_embedding_writer: Container[:active_record_embedding_writer],
         )
       )
     end
