@@ -4,7 +4,7 @@ class Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector
   class << self
     def store_message(chat_id:, message:)
       key = "#{PREFIX}:#{chat_id}"
-      store(key: key, value: message)
+      store(key: key, value: message, index_field: 'id')
     end
 
     def fetch_messages(chat_id:, limit: 50)
