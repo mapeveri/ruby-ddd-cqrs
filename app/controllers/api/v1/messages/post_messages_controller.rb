@@ -16,6 +16,7 @@ class Api::V1::Messages::PostMessagesController < ApplicationController
     @command_bus.execute(command)
     render json: {}, status: :created
   rescue StandardError => e
-    render json: { error: e.message }, status: :unprocessable_entity
+    Rails.logger.error("[PostMessagesController] -> error: #{e}")
+    render json: { error: "There was an error" }, status: :unprocessable_entity
   end
 end
