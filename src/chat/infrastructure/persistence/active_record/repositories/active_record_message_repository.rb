@@ -10,14 +10,9 @@ module Chat
       MessageMapper.to_entity(record)
     end
 
-    def save(message, persistence_options = {})
+    def save(message)
       record = MessageRecord.find_or_initialize_by(id: message.id.to_s)
       record.assign_attributes(MessageMapper.to_record(message))
-
-      if persistence_options.key?(:embedding)
-        record.embedding = persistence_options[:embedding]
-      end
-
       record.save!
     end
   end
