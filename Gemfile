@@ -64,4 +64,7 @@ group :development, :test do
 
   # Faker data
   gem "faker"
+
+  # Fake redis
+  gem "fakeredis", require: false
 end
