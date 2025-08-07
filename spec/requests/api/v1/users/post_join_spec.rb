@@ -30,10 +30,6 @@ RSpec.describe "POST /api/v1/users/join", type: :request do
       $redis.set("session:#{user_id}", cached_data.to_json)
     end
 
-    after do
-      $redis.del("session:#{user_id}")
-    end
-
     it "returns the user_id and name from cache without creating a new one" do
       post "/api/v1/users/join", params: {
         user_id: user_id

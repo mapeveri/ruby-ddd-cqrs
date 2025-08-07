@@ -5,20 +5,19 @@ RSpec.describe "Given a GetMessagesController", type: :request do
   let(:id) { SecureRandom.uuid }
   let(:sender_id) { SecureRandom.uuid }
   let(:receiver_id) { SecureRandom.uuid }
-
   let(:message_payload) do
     {
       id: id,
       chat_id: chat_id,
       sender_id: sender_id,
       receiver_id: receiver_id,
-      content: "Hola mundo"
+      content: "Hello world"
     }
   end
 
   describe "GET /api/v1/messages/:chat_id" do
     it "returns 200 OK" do
-      post "/api/v1/messages", params: message_payload
+      post '/api/v1/messages', params: message_payload
       get "/api/v1/messages/#{chat_id}"
 
       json = JSON.parse(response.body)
