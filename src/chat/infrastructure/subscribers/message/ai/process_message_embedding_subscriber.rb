@@ -12,8 +12,10 @@ module Chat
       Rails.logger.info("[ProcessMessageEmbeddingSubscriber] -> Generating embedding")
       embedding = GeminiEmbeddingClient.embed_text(event.content)
 
+      Rails.logger.info("[ProcessMessageEmbeddingSubscriber] -> Storing in active record")
       @active_record_embedding_writer.update_embedding(event.id, embedding)
 
+      Rails.logger.info("[ProcessMessageEmbeddingSubscriber] -> Generating in redis")
       ChatMessagesProjector.store_message(
         chat_id: event.chat_id,
         message: {
