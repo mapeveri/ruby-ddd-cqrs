@@ -79,4 +79,10 @@ RSpec.configure do |config|
   config.after(:each) do
     $redis.flushdb
   end
+
+  Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient.singleton_class.class_eval do
+    define_method(:embed_text) do |text|
+      Array.new(768) { rand }
+    end
+  end
 end
