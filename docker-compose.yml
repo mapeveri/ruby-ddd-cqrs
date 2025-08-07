@@ -23,5 +23,15 @@ services:
       - ./docker/data/redis:/data
     restart: unless-stopped
 
+  rabbitmq:
+    image: 'rabbitmq:3.12-management'
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASSWORD}
+
 volumes:
   redis_data:
