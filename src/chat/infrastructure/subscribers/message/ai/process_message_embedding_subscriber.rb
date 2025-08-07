@@ -1,6 +1,7 @@
 module Chat
   MessageId = Chat::Domain::Message::MessageId
   GeminiEmbeddingClient = Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
+  ChatMessagesProjector = Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector
 
   class Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber
     def initialize(active_record_embedding_writer:)
@@ -13,7 +14,7 @@ module Chat
 
       @active_record_embedding_writer.update_embedding(event.id, embedding)
 
-      Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector.store_message(
+      ChatMessagesProjector.store_message(
         chat_id: event.chat_id,
         message: {
           id: event.id,
