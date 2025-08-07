@@ -25,7 +25,7 @@ class Container
       )
       bus.subscribe(
         Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ai::GenerateEmbeddingForContentMessageSubscriber.new(
+        Chat::Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber.new(
           active_record_embedding_writer: Container[:active_record_embedding_writer],
         )
       )
