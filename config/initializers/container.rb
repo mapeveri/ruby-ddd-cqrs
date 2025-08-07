@@ -14,7 +14,11 @@ class Container
   end
 
   register :event_bus do
-    Shared::Infrastructure::Bus::RabbitMqEventBus.new
+    if Rails.env.test?
+      Shared::Infrastructure::Bus::InMemoryEventBus.new
+    else
+      Shared::Infrastructure::Bus::RabbitMqEventBus.new
+    end
   end
 
   register :query_bus do
