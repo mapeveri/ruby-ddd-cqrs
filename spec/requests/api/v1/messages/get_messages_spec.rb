@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Given a GetMessagesController", type: :request do
+RSpec.describe "Given a user that want to get the messages of a chat", type: :request do
   let(:chat_id) { SecureRandom.uuid }
   let(:id) { SecureRandom.uuid }
   let(:sender_id) { SecureRandom.uuid }
@@ -15,9 +15,12 @@ RSpec.describe "Given a GetMessagesController", type: :request do
     }
   end
 
-  describe "GET /api/v1/messages/:chat_id" do
-    it "returns 200 OK" do
+  describe "When the url is GET /api/v1/messages/:chat_id" do
+    before do
       post '/api/v1/messages', params: message_payload
+    end
+
+    it "should return 200 OK" do
       get "/api/v1/messages/#{chat_id}"
 
       json = JSON.parse(response.body)

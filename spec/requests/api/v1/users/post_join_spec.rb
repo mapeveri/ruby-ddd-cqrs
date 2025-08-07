@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe "POST /api/v1/users/join", type: :request do
+RSpec.describe "Given a user want to join a chat", type: :request do
   let(:user_id) { SecureRandom.uuid }
 
   before do
     $redis.del("session:#{user_id}")
   end
 
-  describe "Given a user wants to join a chat" do
-    it "returns a user_id and a name" do
+  describe "When user is not already log-in and want to join a chat" do
+    it "should return a new user_id and a name" do
       post "/api/v1/users/join", params: {
         user_id: user_id
       }
@@ -22,7 +22,7 @@ RSpec.describe "POST /api/v1/users/join", type: :request do
     end
   end
 
-  describe "Given a user is already log-in and want to join a chat" do
+  describe "When a user is already log-in and want to join a chat" do
     let(:cached_name) { "Guest_123" }
     let(:cached_data) { { user_id: user_id, name: cached_name } }
 
@@ -30,7 +30,7 @@ RSpec.describe "POST /api/v1/users/join", type: :request do
       $redis.set("session:#{user_id}", cached_data.to_json)
     end
 
-    it "returns the user_id and name from cache without creating a new one" do
+    it "should return the user_id and name from cache without creating a new one" do
       post "/api/v1/users/join", params: {
         user_id: user_id
       }
