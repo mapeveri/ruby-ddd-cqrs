@@ -14,22 +14,7 @@ class Container
   end
 
   register :event_bus do
-    Shared::Infrastructure::Bus::InMemoryEventBus.new .tap do |bus|
-      bus.subscribe(
-        Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber.new
-      )
-      bus.subscribe(
-        Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber.new
-      )
-      bus.subscribe(
-        Chat::Domain::Message::MessageSent,
-        Chat::Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber.new(
-          active_record_embedding_writer: Container[:active_record_embedding_writer],
-        )
-      )
-    end
+    Shared::Infrastructure::Bus::RabbitMqEventBus.new
   end
 
   register :query_bus do

@@ -307,12 +307,6 @@ GEM
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     set (1.1.2)
-    sidekiq (8.0.6)
-      connection_pool (>= 2.5.0)
-      json (>= 2.9.0)
-      logger (>= 1.6.2)
-      rack (>= 3.1.0)
-      redis-client (>= 0.23.2)
     solid_cable (3.0.11)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -390,7 +384,6 @@ DEPENDENCIES
   redis (~> 5.0)
   rspec-rails
   rubocop-rails-omakase
-  sidekiq
   solid_cable
   solid_cache
   solid_queue
