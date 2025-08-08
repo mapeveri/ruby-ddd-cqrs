@@ -22,6 +22,15 @@ services:
     volumes:
       - ./docker/data/redis:/data
     restart: unless-stopped
+    
+  redis_test:
+    image: redis/redis-stack-server:7.2.0-v18
+    container_name: redis_stack-test
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./docker/data/redis:/data
+    restart: unless-stopped
 
   rabbitmq:
     image: 'rabbitmq:3.12-management'
