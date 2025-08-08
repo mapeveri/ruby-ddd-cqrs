@@ -1,8 +1,8 @@
-class Chat::Domain::Message::MessageSent < Shared::Domain::DomainEvent
+class Chat::Domain::Message::MessageSent < Shared::Domain::DomainEvents::DomainEvent
   attr_reader :id, :sender_id, :receiver_id, :content, :chat_id, :created_at
 
-  def initialize(id:, sender_id:, receiver_id:, content:, chat_id:, created_at:)
-    super()
+  def initialize(id:, sender_id:, receiver_id:, content:, chat_id:, created_at:,  **kwargs)
+    super(**kwargs)
     @id = id
     @sender_id = sender_id
     @receiver_id = receiver_id
@@ -23,30 +23,8 @@ class Chat::Domain::Message::MessageSent < Shared::Domain::DomainEvent
       )
     end
 
-    def from_h(hash)
-      new(
-        id: hash["id"],
-        sender_id: hash["sender_id"],
-        receiver_id: hash["receiver_id"],
-        content: hash["content"],
-        chat_id: hash["chat_id"],
-        created_at: hash["created_at"]
-      )
-    end
-
     def event_name
       "chat.message.sent"
     end
-  end
-
-  def to_h
-    {
-      id: id,
-      sender_id: sender_id,
-      receiver_id: receiver_id,
-      content: content,
-      chat_id: chat_id,
-      created_at: created_at
-    }
   end
 end
