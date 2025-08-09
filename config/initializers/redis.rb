@@ -25,4 +25,3 @@ begin
 rescue => e
   Rails.logger.warn("⚠️ Could not create Redis vector index: #{e.message}")
 end
-
