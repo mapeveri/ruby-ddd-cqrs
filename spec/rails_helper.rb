@@ -79,8 +79,10 @@ RSpec.configure do |config|
 
   Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient.singleton_class.class_eval do
     define_method(:embed_text) do |text|
-      hash = Digest::SHA256.hexdigest(text)
-      hash.bytes.first(3).map { |b| b / 255.0 }
+      seed = Digest::SHA256.hexdigest(text)[0, 16].to_i(16)
+      rng = Random.new(seed)
+
+      Array.new(3072) { rng.rand * 2 - 1 }
     end
   end
 end
