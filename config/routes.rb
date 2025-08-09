@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       namespace :messages do
         post "/", to: "post_messages#call"
         get "/:chat_id", to: "get_messages#call"
+        get "/search/:chat_id", to: "get_search_messages#call"
       end
       namespace :users do
         post "/join", to: "post_join#call"

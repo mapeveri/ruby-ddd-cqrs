@@ -9,6 +9,10 @@ class Container
     Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new
   end
 
+  register :search_messages_read_model do
+    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisSearchMessagesReadModel.new
+  end
+
   register :active_record_embedding_writer do
     Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new
   end
@@ -27,6 +31,12 @@ class Container
         Chat::Application::Message::Queries::GetMessagesQuery,
         Chat::Application::Message::Queries::GetMessagesQueryHandler.new(
           get_messages_read_model: Container[:get_messages_read_model],
+        )
+      )
+      bus.register(
+        Chat::Application::Message::Queries::Search::SearchMessagesQuery,
+        Chat::Application::Message::Queries::Search::SearchMessagesQueryHandler.new(
+          search_messages_read_model: Container[:search_messages_read_model],
         )
       )
     end
