@@ -1,16 +1,18 @@
-require 'ostruct'
 require 'rails_helper'
 
 RSpec.describe Api::V1::Messages::GetSearchMessagesController, type: :controller do
   let(:chat_id) { SecureRandom.uuid }
   let(:messages_array) { [ MessageMother.random.to_h, MessageMother.random.to_h ] }
-  let(:mock_query_bus) {
-    double('QueryBus', ask: OpenStruct.new(content: SearchMessagesQueryResponseMother.create(messages: messages_array)))
-  }
-  let(:controller) { described_class.new(query_bus: mock_query_bus) }
+  let(:query_bus) { QueryBusMock.new }
+  let(:controller) { described_class.new(query_bus: query_bus) }
 
   before do
     allow(controller).to receive(:params).and_return({ chat_id: chat_id })
+    query_bus.add(SearchMessagesQueryResponseMother.create(messages: messages_array))
+  end
+
+  after do
+    query_bus.clear
   end
 
   describe 'when a #call method is called' do
