@@ -1,12 +1,18 @@
 class Container
   extend Dry::Container::Mixin
 
+  register :chat_messages_projector do
+    Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector.new
+  end
+
   register :message_repository do
     Chat::Infrastructure::Persistence::ActiveRecord::Repositories::ActiveRecordMessageRepository.new
   end
 
   register :get_messages_read_model do
-    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new
+    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new(
+      chat_messages_projector: Container[:chat_messages_projector]
+    )
   end
 
   register :search_messages_read_model do
