@@ -7,7 +7,8 @@ module EventSubscriptions
         ),
         Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber.new,
         Chat::Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber.new(
-          active_record_embedding_writer: Container[:active_record_embedding_writer]
+          active_record_embedding_writer: Container[:active_record_embedding_writer],
+          redis_embedding: Container[:redis_embedding]
         )
       ]
     }

@@ -5,6 +5,10 @@ class Container
     Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector.new
   end
 
+  register :redis_embedding do
+    Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding.new
+  end
+
   register :message_repository do
     Chat::Infrastructure::Persistence::ActiveRecord::Repositories::ActiveRecordMessageRepository.new
   end
@@ -16,7 +20,9 @@ class Container
   end
 
   register :search_messages_read_model do
-    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisSearchMessagesReadModel.new
+    Chat::Infrastructure::Persistence::Redis::ReadModels::RedisSearchMessagesReadModel.new(
+      redis_embedding: Container[:redis_embedding]
+    )
   end
 
   register :active_record_embedding_writer do

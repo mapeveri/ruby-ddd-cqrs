@@ -1,11 +1,11 @@
 module Chat
   MessageId = Chat::Domain::Message::MessageId
   GeminiEmbeddingClient = Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
-  RedisEmbedding = Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding
 
   class Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber
-    def initialize(active_record_embedding_writer:)
+    def initialize(active_record_embedding_writer:, redis_embedding:)
       @active_record_embedding_writer = active_record_embedding_writer
+      @redis_embedding = redis_embedding
     end
 
     def call(event)
@@ -16,7 +16,7 @@ module Chat
       @active_record_embedding_writer.update_embedding(event.id, embedding)
 
       Rails.logger.info("[ProcessMessageEmbeddingSubscriber] -> Generating in redis")
-      RedisEmbedding.store(id: event.id, chat_id: event.chat_id, content: event.content, embedding: embedding)
+      @redis_embedding.store(id: event.id, chat_id: event.chat_id, content: event.content, embedding: embedding)
     end
   end
 end
