@@ -3,7 +3,7 @@ module EventSubscriptions
     {
       Chat::Domain::Message::MessageSent => [
         Chat::Infrastructure::Subscribers::Message::Projection::AddMessageProjectionSubscriber.new(
-          chat_messages_projector: Container[:chat_messages_projector]
+          redis_chat_messages_projector: Container[:redis_chat_messages_projector]
         ),
         Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber.new,
         Chat::Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber.new(

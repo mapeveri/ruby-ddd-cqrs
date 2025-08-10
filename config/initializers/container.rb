@@ -1,8 +1,8 @@
 class Container
   extend Dry::Container::Mixin
 
-  register :chat_messages_projector do
-    Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector.new
+  register :redis_chat_messages_projector do
+    Chat::Infrastructure::Persistence::Redis::Projector::RedisChatMessagesProjector.new
   end
 
   register :redis_embedding do
@@ -15,7 +15,7 @@ class Container
 
   register :get_messages_read_model do
     Chat::Infrastructure::Persistence::Redis::ReadModels::RedisGetMessagesReadModel.new(
-      chat_messages_projector: Container[:chat_messages_projector]
+      redis_chat_messages_projector: Container[:redis_chat_messages_projector]
     )
   end
 

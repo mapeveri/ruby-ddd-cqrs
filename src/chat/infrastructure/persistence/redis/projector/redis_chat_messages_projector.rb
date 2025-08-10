@@ -1,4 +1,4 @@
-class Chat::Infrastructure::Persistence::Redis::Projector::ChatMessagesProjector < Shared::Infrastructure::Persistence::Redis::Projector::RedisProjector
+class Chat::Infrastructure::Persistence::Redis::Projector::RedisChatMessagesProjector < Shared::Infrastructure::Persistence::Redis::Projector::RedisProjector
   PREFIX = "chat:messages"
 
   def store_message(chat_id:, message:)
