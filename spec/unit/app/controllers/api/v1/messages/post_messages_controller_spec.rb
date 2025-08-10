@@ -15,8 +15,8 @@ RSpec.describe Api::V1::Messages::PostMessagesController, type: :controller do
       chat_id: chat_id
     }
   end
-  let(:mock_command_bus) { double('CommandBus', execute: true) }
-  let(:controller) { described_class.new(command_bus: mock_command_bus) }
+  let(:command_bus) { CommandBusMock.new }
+  let(:controller) { described_class.new(command_bus: command_bus) }
 
   before do
     allow(controller).to receive(:params).and_return(params_hash)
