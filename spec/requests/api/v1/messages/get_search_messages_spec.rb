@@ -14,7 +14,6 @@ RSpec.describe "Given a user that want to search message in a chat", type: :requ
       content: "Hello world"
     }
   end
-  let(:search) { "Give messages where the text is Hello world" }
 
   describe "When the url is GET /api/v1/messages/search/:chat_id" do
     before do
@@ -22,12 +21,23 @@ RSpec.describe "Given a user that want to search message in a chat", type: :requ
     end
 
     it "should return 200 OK and find a message" do
+      search = "Give messages where the text is Hello world"
       get "/api/v1/messages/search/#{chat_id}?q=#{search}"
 
       json = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
       expect(json).to be_an(Array)
       expect(json.length).to eq(1)
+    end
+
+    it "should return 200 OK but with empty values when the search text does not have values" do
+      search = "invalid search text"
+      get "/api/v1/messages/search/#{chat_id}?q=#{search}"
+
+      json = JSON.parse(response.body)
+      expect(response).to have_http_status(:ok)
+      expect(json).to be_an(Array)
+      expect(json.length).to eq(0)
     end
   end
 end

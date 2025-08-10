@@ -1,4 +1,6 @@
 class Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding
+  MIN_SCORE = 0.4
+
   class << self
     def store(id:, chat_id:, content:, embedding:)
       raise "Embedding incorrect dimension" unless embedding.size == 3072
@@ -31,7 +33,9 @@ class Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding
 
       return [] if raw.nil? || raw.empty? || raw[0].to_i.zero?
 
-      self.parse_redis_search_result(raw)
+      results = self.parse_redis_search_result(raw)
+
+      results.select { |result| MIN_SCORE >= result[:score].to_f }
     end
 
     private

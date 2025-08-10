@@ -77,12 +77,10 @@ RSpec.configure do |config|
     clear_redis_db
   end
 
+  MOCK_VECTOR = Random.new(123).yield_self { |rng| Array.new(3072) { rng.rand * 2 - 1 } }
   Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient.singleton_class.class_eval do
     define_method(:embed_text) do |text|
-      seed = Digest::SHA256.hexdigest(text)[0, 16].to_i(16)
-      rng = Random.new(seed)
-
-      Array.new(3072) { rng.rand * 2 - 1 }
+      generate_embedding(text)
     end
   end
 end
@@ -95,4 +93,15 @@ end
 def clear_redis_db
   keys = $redis.keys('chat:message:*')
   $redis.del(*keys) unless keys.empty?
+end
+
+def generate_embedding(text)
+  if text == "Hello world" || text == "Give messages where the text is Hello world"
+    return MOCK_VECTOR
+  end
+
+  seed = text.hash
+  rng = Random.new(seed)
+  base_vector = Array.new(3072) { rng.rand * 2 - 1 }
+  base_vector.map { |v| v + (rand - 0.5) * 0.1 }
 end
