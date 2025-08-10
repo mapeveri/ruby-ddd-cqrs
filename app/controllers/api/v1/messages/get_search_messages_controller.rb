@@ -8,7 +8,7 @@ class Api::V1::Messages::GetSearchMessagesController < ApplicationController
     chat_id = params[:chat_id]
     text = params[:q]
 
-    query = Chat::Application::Message::Queries::Search::SearchMessagesQuery.new(
+    query = Chat::Application::Message::Queries::SearchMessagesQuery.new(
       chat_id: chat_id,
       text: text
     )

@@ -34,8 +34,8 @@ class Container
         )
       )
       bus.register(
-        Chat::Application::Message::Queries::Search::SearchMessagesQuery,
-        Chat::Application::Message::Queries::Search::SearchMessagesQueryHandler.new(
+        Chat::Application::Message::Queries::SearchMessagesQuery,
+        Chat::Application::Message::Queries::SearchMessagesQueryHandler.new(
           search_messages_read_model: Container[:search_messages_read_model],
         )
       )

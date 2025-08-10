@@ -3,7 +3,7 @@ class SearchMessagesQueryMother
     chat_id: SecureRandom.uuid,
     text: Faker::Lorem.sentence
   )
-    Chat::Application::Message::Queries::Search::SearchMessagesQuery.new(
+    Chat::Application::Message::Queries::SearchMessagesQuery.new(
       chat_id: chat_id,
       text: text
     )

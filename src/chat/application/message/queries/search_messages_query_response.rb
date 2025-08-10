@@ -1,4 +1,4 @@
-class Chat::Application::Message::Queries::Search::SearchMessagesQueryResponse
+class Chat::Application::Message::Queries::SearchMessagesQueryResponse
   attr_reader :messages
 
   def initialize(messages:)

@@ -1,5 +1,5 @@
 module Chat
-  SearchMessagesReadModel = Chat::Application::Message::Queries::Search::SearchMessagesReadModel
+  SearchMessagesReadModel = Chat::Application::Message::Queries::SearchMessagesReadModel
   GeminiEmbeddingClient = Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
   RedisEmbedding = Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding
 

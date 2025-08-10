@@ -1,9 +1,9 @@
 module Chat
   ChatId = Chat::Domain::Message::ChatId
   MessageContent = Chat::Domain::Message::MessageContent
-  SearchMessagesQueryResponse = Chat::Application::Message::Queries::Search::SearchMessagesQueryResponse
+  SearchMessagesQueryResponse = Chat::Application::Message::Queries::SearchMessagesQueryResponse
 
-  class Application::Message::Queries::Search::SearchMessagesQueryHandler
+  class Application::Message::Queries::SearchMessagesQueryHandler
     def initialize(search_messages_read_model:)
       @search_messages_read_model = search_messages_read_model
     end

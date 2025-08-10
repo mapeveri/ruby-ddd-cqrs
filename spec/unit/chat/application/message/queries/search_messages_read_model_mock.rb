@@ -1,4 +1,4 @@
-class SearchMessagesReadModelMock < Chat::Application::Message::Queries::Search::SearchMessagesReadModel
+class SearchMessagesReadModelMock < Chat::Application::Message::Queries::SearchMessagesReadModel
   def initialize
     @messages = []
   end

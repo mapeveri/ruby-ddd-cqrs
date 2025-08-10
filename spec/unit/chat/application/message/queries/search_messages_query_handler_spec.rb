@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Chat::Application::Message::Queries::Search::SearchMessagesQueryHandler, type: :handler do
+RSpec.describe Chat::Application::Message::Queries::SearchMessagesQueryHandler, type: :handler do
   let(:read_model) { SearchMessagesReadModelMock.new }
   let(:handler) { described_class.new(search_messages_read_model: read_model) }
 
