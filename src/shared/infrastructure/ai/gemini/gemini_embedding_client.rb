@@ -3,7 +3,7 @@ require "json"
 require "uri"
 
 class Shared::Infrastructure::Ai::Gemini::GeminiEmbeddingClient
-  def self.embed_text(prompt)
+  def embed_text(prompt)
     base_url = ENV.fetch("GEMINI_API_BASE_URL")
     model = ENV.fetch("GEMINI_EMBEDDING_MODEL")
     api_key = ENV.fetch("GEMINI_API_KEY")
