@@ -3,6 +3,7 @@ import Message from './Message';
 import InputBox from './InputBox';
 import { useSession } from '../hooks/useSession.ts';
 import { useCable } from "../hooks/useCable.ts";
+import SearchBox from "./SearchBox.tsx";
 
 type MessageType = {
   id: string;
@@ -113,6 +114,8 @@ export default function Chat() {
         </div>
       </header>
 
+      <SearchBox chatId={CHAT_ID} />
+      
       <div className="bg-white p-3 border-b border-gray-300">
         <h2 className="text-gray-700 font-semibold mb-2">Online Users</h2>
         {onlineUsers.length > 0 ? (
@@ -151,7 +154,7 @@ export default function Chat() {
           ))
         )}
       </main>
-
+      
       <footer className="p-4 bg-white border-t border-gray-300 shadow-inner">
         {session?.user_id ? (
           <InputBox onSend={addMessage} />
