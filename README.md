@@ -58,6 +58,7 @@ This application demonstrates clean architecture principles with a clear separat
 - **PostgreSQL 15** - Robust relational database
 - **Redis 7.2.0** - In-memory data structure store
 - **RabbitMQ 3.12** - Message broker for event-driven architecture
+- **Gemini** - LLM / Embeddings service used for RAG (Retrieval-Augmented Generation)
 
 ### Development & Testing
 - **RSpec** - Framework for testing
