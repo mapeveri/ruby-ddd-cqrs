@@ -16,27 +16,27 @@ This application demonstrates clean architecture principles with a clear separat
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Frontend Layer                          │
+│                    Frontend Layer                           │
 ├─────────────────────────────────────────────────────────────┤
-│                  Controllers (Rails)                       │
+│                  Controllers (Rails)                        │
 ├─────────────────────────────────────────────────────────────┤
-│                Application Layer (CQRS)                    │
-│  ┌─────────────────┐  ┌─────────────────┐                │
-│  │   Commands      │  │     Queries     │                │
-│  │   (Write)       │  │     (Read)      │                │
-│  └─────────────────┘  └─────────────────┘                │
+│                Application Layer (CQRS)                     │
+│  ┌─────────────────┐  ┌─────────────────┐                   │
+│  │   Commands      │  │     Queries     │                   │
+│  │ (Write/Postgres │  │   (Read/Redis)  │                   │
+│  └─────────────────┘  └─────────────────┘                   │
 ├─────────────────────────────────────────────────────────────┤
-│                  Domain Layer (DDD)                        │
-│  ┌─────────────────┐  ┌─────────────────┐                │
-│  │   Aggregates    │  │  Value Objects  │                │
-│  │   Domain Events │  │   Repositories  │                │
-│  └─────────────────┘  └─────────────────┘                │
+│                  Domain Layer (DDD)                         │
+│  ┌─────────────────┐  ┌─────────────────┐                   │
+│  │   Aggregates    │  │  Value Objects  │                   │
+│  │   Domain Events │  │   Repositories  │                   │
+│  └─────────────────┘  └─────────────────┘                   │
 ├─────────────────────────────────────────────────────────────┤
-│               Infrastructure Layer                         │
-│  ┌─────────────────┐  ┌─────────────────┐                │
-│  │   PostgreSQL    │  │      Redis      │                │
-│  │   RabbitMQ      │  │   Event Store   │                │
-│  └─────────────────┘  └─────────────────┘                │
+│               Infrastructure Layer                          │
+│  ┌─────────────────┐  ┌─────────────────┐                   │
+│  │   PostgreSQL    │  │      Redis      │                   │
+│  │   RabbitMQ      │  │      Gemini     │                   │
+│  └─────────────────┘  └─────────────────┘                   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -49,19 +49,18 @@ This application demonstrates clean architecture principles with a clear separat
 - **📱 Real-time Chat**: WebSocket support with Action Cable
 - **🧪 Comprehensive Testing**: RSpec test suite with proper test isolation
 - **🔒 Security**: Brakeman security scanning and best practices
-- **📊 Monitoring**: Redis Stack for caching and analytics
 
 ## 🛠️ Technology Stack
 
 ### Backend
-- **Ruby 3.3.0** - Modern Ruby with performance improvements
-- **Rails 8.0.2** - Latest Rails with solid_queue, solid_cache, solid_cable
+- **Ruby 3.3.0** - Ruby programming language
+- **Rails 8.0.2** - Ruby on Rails framework
 - **PostgreSQL 15** - Robust relational database
 - **Redis 7.2.0** - In-memory data structure store
 - **RabbitMQ 3.12** - Message broker for event-driven architecture
 
 ### Development & Testing
-- **RSpec** - Behavior-driven development framework
+- **RSpec** - Framework for testing
 - **RuboCop** - Ruby code style checker
 - **Brakeman** - Security vulnerability scanner
 - **Faker** - Test data generation
@@ -71,7 +70,7 @@ This application demonstrates clean architecture principles with a clear separat
 - **Domain Events** - Event-driven communication between aggregates
 - **Aggregate Roots** - Consistency boundaries for domain objects
 - **Value Objects** - Immutable domain concepts
-- **Repository Pattern** - Data access abstraction
+- **Repository Pattern** - Domain-focused data access abstraction that acts as a collection of aggregates and hides infrastructure details.
 - **Command/Query Separation** - Optimized read/write operations
 
 ## 🚀 Quick Start
@@ -83,7 +82,7 @@ This application demonstrates clean architecture principles with a clear separat
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/ruby-ddd-cqrs.git
+git clone https://github.com/mapeveri/ruby-ddd-cqrs.git
 cd ruby-ddd-cqrs
 ```
 
@@ -121,20 +120,20 @@ Visit [http://localhost:3000](http://localhost:3000) to see your application!
 src/
 ├── shared/                    # Shared domain components
 │   ├── domain/
-│   │   ├── aggregate_root.rb # Base aggregate root class
-│   │   ├── domain_events/    # Domain event infrastructure
-│   │   ├── bus/             # Event bus implementation
-│   │   └── value_objects/   # Shared value objects
-│   └── infrastructure/       # Shared infrastructure
-├── chat/                     # Chat bounded context
-│   ├── domain/              # Domain layer
-│   │   ├── message/         # Message aggregate
-│   │   └── user/            # User aggregate
-│   ├── application/         # Application layer (CQRS)
+│   │   ├── aggregate_root.rb  # Base aggregate root class
+│   │   ├── domain_events/     # Domain event infrastructure
+│   │   ├── bus/               # Event bus implementation
+│   │   └── value_objects/     # Shared value objects
+│   └── infrastructure/        # Shared infrastructure
+├── chat/                      # Chat bounded context
+│   ├── domain/                # Domain layer
+│   │   ├── message/           # Message aggregate
+│   │   └── user/              # User aggregate
+│   ├── application/           # Application layer (CQRS)
 │   │   └── message/
-│   │       ├── commands/    # Write operations
-│   │       └── queries/     # Read operations
-│   └── infrastructure/      # Infrastructure layer
+│   │       ├── commands/      # Write operations
+│   │       └── queries/       # Read operations
+│   └── infrastructure/        # Infrastructure layer
 ```
 
 ## 🧪 Testing
@@ -171,69 +170,6 @@ docker-compose down
 
 # Rebuild containers
 docker-compose up --build
-```
-
-## 📚 Architecture Patterns in Action
-
-### Domain Events
-```ruby
-# Domain event example
-class Chat::Domain::Message::MessageSent < Shared::Domain::DomainEvent
-  def initialize(message)
-    @message_id = message.id
-    @sender_id = message.sender_id
-    @receiver_id = message.receiver_id
-    @content = message.content
-    @chat_id = message.chat_id
-    @occurred_on = Time.now
-  end
-end
-```
-
-### CQRS Implementation
-```ruby
-# Command (Write)
-class SendMessageCommand
-  attr_reader :sender_id, :receiver_id, :content, :chat_id
-end
-
-# Query (Read)
-class SearchMessagesQuery
-  attr_reader :chat_id, :limit, :offset
-end
-```
-
-### Aggregate Root
-```ruby
-class Chat::Domain::Message::Message < Shared::Domain::AggregateRoot
-  def self.send(id:, sender_id:, receiver_id:, content:, chat_id:)
-    message = new(...)
-    message.record(Chat::Domain::Message::MessageSent.from(message))
-    message
-  end
-end
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-- `DATABASE_URL` - PostgreSQL connection string
-- `REDIS_URL` - Redis connection string
-- `RABBITMQ_URL` - RabbitMQ connection string
-
-### Database Configuration
-The application uses PostgreSQL with UUID primary keys and proper indexing for CQRS read models.
-
-## 🚀 Deployment
-
-This application is configured for deployment using **Kamal**:
-
-```bash
-# Deploy to production
-bundle exec kamal deploy
-
-# Deploy to staging
-bundle exec kamal deploy --config config/deploy.staging.yml
 ```
 
 ## 🤝 Contributing
