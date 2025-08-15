@@ -12,22 +12,11 @@ module Chat
       chat_id = ChatId.of(query.chat_id)
       text = query.text
 
-      messages_list = @search_messages_read_model.search(chat_id: chat_id, text: text)
-      messages = self.map_messages(messages_list)
+      response = @search_messages_read_model.search(chat_id: chat_id, text: text)
 
       SearchMessagesQueryResponse.new(
-        messages: messages
+        response: response
       )
     end
-
-    private
-      def map_messages(messages_list)
-        messages_list.map do |message|
-          {
-            id: message[:id],
-            content: message[:content]
-          }
-        end
-      end
   end
 end

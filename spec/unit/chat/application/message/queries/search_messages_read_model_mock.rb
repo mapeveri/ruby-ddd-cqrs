@@ -1,17 +1,17 @@
 class SearchMessagesReadModelMock < Chat::Application::Message::Queries::SearchMessagesReadModel
   def initialize
-    @messages = []
+    @response = nil
   end
 
-  def add(message)
-    @messages << message
+  def add(response)
+    @response = response
   end
 
   def clear
-    @messages.clear
+    @response = nill
   end
 
   def search(chat_id:, text:)
-    @messages
+    @response
   end
 end

@@ -9,6 +9,10 @@ class Container
     Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding.new
   end
 
+  register :gemini_llm_client do
+    Shared::Infrastructure::Ai::Gemini::GeminiLlmClient.new
+  end
+
   register :message_repository do
     Chat::Infrastructure::Persistence::ActiveRecord::Repositories::ActiveRecordMessageRepository.new
   end
@@ -21,7 +25,8 @@ class Container
 
   register :search_messages_read_model do
     Chat::Infrastructure::Persistence::Redis::ReadModels::RedisSearchMessagesReadModel.new(
-      redis_embedding: Container[:redis_embedding]
+      redis_embedding: Container[:redis_embedding],
+      gemini_llm_client: Container[:gemini_llm_client]
     )
   end
 

@@ -1,7 +1,7 @@
 class SearchMessagesQueryResponseMother
-  def self.create(messages:)
+  def self.create(response:)
     Chat::Application::Message::Queries::SearchMessagesQueryResponse.new(
-      messages: messages
+      response: response
     )
   end
 end

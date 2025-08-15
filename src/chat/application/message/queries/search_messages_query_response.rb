@@ -1,7 +1,7 @@
 class Chat::Application::Message::Queries::SearchMessagesQueryResponse
-  attr_reader :messages
+  attr_reader :response
 
-  def initialize(messages:)
-    @messages = messages
+  def initialize(response:)
+    @response = response
   end
 end

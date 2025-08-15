@@ -14,6 +14,6 @@ class Api::V1::Messages::GetSearchMessagesController < ApplicationController
     )
 
     result = @query_bus.ask(query)
-    render json: result.content.messages, status: :ok
+    render json: { response: result.content.response }, status: :ok
   end
 end
