@@ -2,9 +2,11 @@ require 'spec_helper'
 require 'zeitwerk'
 require 'faker'
 require 'uuidtools'
+require 'action_controller'
 
 loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/../src")
+loader.push_dir("#{__dir__}/../app/controllers")
 loader.setup
 
 RSpec.configure do |config|
