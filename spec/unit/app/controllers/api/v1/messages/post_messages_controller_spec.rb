@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'unit_helper'
 
 RSpec.describe Api::V1::Messages::PostMessagesController, type: :controller do
   let(:id) { SecureRandom.uuid }

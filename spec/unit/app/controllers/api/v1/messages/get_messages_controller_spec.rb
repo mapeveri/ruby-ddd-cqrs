@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'unit_helper'
 
 RSpec.describe Api::V1::Messages::GetMessagesController, type: :controller do
   let(:chat_id) { SecureRandom.uuid }
