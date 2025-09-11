@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'unit_helper'
 
 RSpec.describe Chat::Application::Message::Queries::GetMessagesQueryHandler, type: :handler do
   let(:read_model) { GetMessagesReadModelMock.new }

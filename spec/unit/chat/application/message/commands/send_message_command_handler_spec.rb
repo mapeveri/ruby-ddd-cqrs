@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'unit_helper'
 
 RSpec.describe Chat::Application::Message::Commands::SendMessageCommandHandler, type: :handler do
   let(:message_repository) { MessageRepositoryMock.new }
