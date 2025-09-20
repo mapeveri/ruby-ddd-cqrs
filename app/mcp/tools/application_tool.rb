@@ -5,4 +5,3 @@ module MCP
     # write your custom logic to be shared across all tools here
   end
 end
-
