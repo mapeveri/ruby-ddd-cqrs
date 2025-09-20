@@ -68,3 +68,5 @@ group :development, :test do
   # Fake redis
   gem "fakeredis", require: false
 end
+
+gem "fast-mcp", "~> 1.5"
