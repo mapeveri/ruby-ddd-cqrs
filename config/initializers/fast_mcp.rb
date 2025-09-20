@@ -38,5 +38,7 @@ FastMcp.mount_in_rails(
     # alternatively, you can register tools and resources manually:
     # server.register_tool(MyTool)
     # server.register_resource(MyResource)
+    #
+    server.register_tool(MCP::SearchMessagesTool)
   end
 end
