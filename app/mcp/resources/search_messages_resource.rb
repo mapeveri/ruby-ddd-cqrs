@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module MCP
-  class SearchMessagesTool < ApplicationTool
-    tool_name "chat_search_messages"
+  class SearchMessagesResource < ApplicationResource
+    uri "chats/:chat_id/messages/search"
+    resource_name "Messages"
     description "Search messages in chat"
+    mime_type "application/json"
 
     arguments do
       required(:chat_id).filled(:string).description("Chat id to search")
@@ -15,7 +17,10 @@ module MCP
       super()
     end
 
-    def call(chat_id:, text:)
+    def content
+      chat_id = params[:chat_id]
+      query = params[:text]
+
       query = Chat::Application::Message::Queries::SearchMessagesQuery.new(
         chat_id: chat_id,
         text: text
@@ -23,7 +28,7 @@ module MCP
 
       result = @query_bus.ask(query)
 
-      result.content.response
+      JSON.generate(result.content.response)
     end
   end
 end

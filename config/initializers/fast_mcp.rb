@@ -39,6 +39,6 @@ FastMcp.mount_in_rails(
     # server.register_tool(MyTool)
     # server.register_resource(MyResource)
     #
-    server.register_tool(MCP::SearchMessagesTool)
+    server.register_resources(MCP::SearchMessagesResource)
   end
 end
