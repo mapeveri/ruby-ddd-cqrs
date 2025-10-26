@@ -12,7 +12,8 @@ module MCP
       super(*args, **kwargs)
     end
 
-    def content(chat_id:)
+    def content
+      chat_id = params[:chat_id]
       query = Chat::Application::Message::Queries::GetMessagesQuery.new(
         chat_id: chat_id
       )
