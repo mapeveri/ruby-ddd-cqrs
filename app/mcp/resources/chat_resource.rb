@@ -3,7 +3,7 @@
 module MCP
   class ChatResource < ApplicationResource
     uri "examples/chats/messages"
-    resource_name "ChatMessages"
+    resource_name "ChatResource"
     description "Messages belonging to a specific chat"
     mime_type "application/json"
 
