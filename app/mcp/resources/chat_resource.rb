@@ -2,14 +2,14 @@
 
 module MCP
   class ChatResource < ApplicationResource
-    uri "examples/chats/messages"
+    uri "file:///chats/{chat_id}/messages"
     resource_name "ChatResource"
     description "Messages belonging to a specific chat"
     mime_type "application/json"
 
-    def initialize(**kwargs)
+    def initialize(*args, **kwargs)
       @query_bus = Container[:query_bus]
-      super()
+      super(*args, **kwargs)
     end
 
     def content(chat_id:)
