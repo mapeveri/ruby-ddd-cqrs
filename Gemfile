@@ -69,4 +69,4 @@ group :development, :test do
   gem "fakeredis", require: false
 end
 
-gem "fast-mcp", "~> 1.5"
+gem "fast-mcp", "~> 1.6"
