@@ -193,7 +193,7 @@ GEM
       mime-types-data (~> 3.2025, >= 3.2025.0507)
     mime-types-data (3.2025.0916)
     mini_mime (1.1.5)
-    minitest (5.26.0)
+    minitest (5.26.1)
     msgpack (1.8.0)
     net-imap (0.5.9)
       date
@@ -299,7 +299,7 @@ GEM
     redis-client (0.25.1)
       connection_pool
     regexp_parser (2.10.0)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     rspec-core (3.13.5)
       rspec-support (~> 3.13.0)
@@ -355,7 +355,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_cache (1.0.9)
+    solid_cache (1.0.10)
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
