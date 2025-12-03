@@ -142,7 +142,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
-    faker (3.5.2)
+    faker (3.5.3)
       i18n (>= 1.8.11, < 2)
     fakeredis (0.1.4)
     fast-mcp (1.5.0)
