@@ -74,7 +74,6 @@ RSpec.configure do |config|
 
   config.after(:each) do
     clear_postgres_db
-    clear_analytics_db
     clear_redis_db
   end
 
@@ -84,10 +83,6 @@ end
 def clear_postgres_db
   tables = ActiveRecord::Base.connection.tables - %w[schema_migrations ar_internal_metadata]
   tables.each { |table| ActiveRecord::Base.connection.execute("DELETE FROM #{table}") }
-end
-
-def clear_analytics_db
-  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.delete_all
 end
 
 def clear_redis_db
