@@ -9,58 +9,18 @@ class Container
     Shared::Infrastructure::Messaging::Kafka::KafkaClient.new
   end
 
-  register :kafka_producer do
+  register :message_state_producer do
     Shared::Infrastructure::Messaging::Kafka::KafkaProducer.new(
       kafka_client: Container[:kafka_client],
-      topic: ENV.fetch("KAFKA_ANALYTICS_TOPIC")
+      topic: ENV.fetch("KAFKA_MESSAGE_STATE_TOPIC"),
+      cleanup_policy: "compact"
     )
   end
 
-  register :kafka_event_bridge do
-    Shared::Infrastructure::Bridge::KafkaEventBridge.new(
-      kafka_producer: Container[:kafka_producer]
-    )
-  end
-
-  register :chat_activity_projector do
-    Analytics::Infrastructure::Persistence::Redis::Projector::ChatActivityProjector.new
-  end
-
-  register :user_engagement_projector do
-    Analytics::Infrastructure::Persistence::Redis::Projector::UserEngagementProjector.new
-  end
-
-  register :analytics_snapshot_repository do
-    Analytics::Infrastructure::Persistence::ActiveRecord::Repositories::AnalyticsSnapshotRepository.new
-  end
-
-  register :analytics_snapshot_manager do
-    Analytics::Infrastructure::Snapshot::SnapshotManager.new(
-      snapshot_repository: Container[:analytics_snapshot_repository],
-      snapshot_interval: ENV.fetch("KAFKA_SNAPSHOT_INTERVAL", "100").to_i
-    )
-  end
-
-  register :analytics_events_consumer do
-    Analytics::Infrastructure::Consumers::AnalyticsEventsConsumer.new(
-      kafka_client: Container[:kafka_client],
-      topic: ENV.fetch("KAFKA_ANALYTICS_TOPIC"),
-      group_id: ENV.fetch("KAFKA_ANALYTICS_CONSUMER_GROUP"),
-      chat_activity_projector: Container[:chat_activity_projector],
-      user_engagement_projector: Container[:user_engagement_projector],
-      snapshot_manager: Container[:analytics_snapshot_manager]
-    )
-  end
-
-  register :chat_activity_read_model do
-    Analytics::Infrastructure::Persistence::Redis::ReadModels::RedisChatActivityReadModel.new(
-      chat_activity_projector: Container[:chat_activity_projector]
-    )
-  end
-
-  register :user_engagement_read_model do
-    Analytics::Infrastructure::Persistence::Redis::ReadModels::RedisUserEngagementReadModel.new(
-      user_engagement_projector: Container[:user_engagement_projector]
+  register :message_state_publisher do
+    Chat::Infrastructure::Messaging::Kafka::MessageStatePublisher.new(
+      kafka_producer: Container[:message_state_producer],
+      enabled: !Rails.env.test?
     )
   end
 
@@ -94,8 +54,18 @@ class Container
     )
   end
 
+  register :sql_chat_activity_read_model do
+    Analytics::Infrastructure::Persistence::AnalyticsDb::ReadModels::SqlChatActivityReadModel.new
+  end
+
+  register :sql_user_engagement_read_model do
+    Analytics::Infrastructure::Persistence::AnalyticsDb::ReadModels::SqlUserEngagementReadModel.new
+  end
+
   register :active_record_embedding_writer do
-    Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new
+    Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new(
+      message_state_publisher: Container[:message_state_publisher]
+    )
   end
 
   register :event_bus do
@@ -123,13 +93,13 @@ class Container
       bus.register(
         Analytics::Application::Queries::GetChatActivityQuery,
         Analytics::Application::Queries::GetChatActivityQueryHandler.new(
-          read_model: Container[:chat_activity_read_model],
+          read_model: Container[:sql_chat_activity_read_model],
         )
       )
       bus.register(
         Analytics::Application::Queries::GetUserEngagementQuery,
         Analytics::Application::Queries::GetUserEngagementQueryHandler.new(
-          read_model: Container[:user_engagement_read_model],
+          read_model: Container[:sql_user_engagement_read_model],
         )
       )
     end

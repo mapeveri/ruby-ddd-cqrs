@@ -74,6 +74,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     clear_postgres_db
+    clear_analytics_db
     clear_redis_db
   end
 
@@ -85,8 +86,26 @@ def clear_postgres_db
   tables.each { |table| ActiveRecord::Base.connection.execute("DELETE FROM #{table}") }
 end
 
+def ensure_analytics_test_table
+  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.connection.execute(<<~SQL)
+    CREATE TABLE IF NOT EXISTS message_records (
+      id VARCHAR(255) PRIMARY KEY,
+      chat_id VARCHAR(255),
+      content TEXT,
+      sender_id VARCHAR(255),
+      receiver_id VARCHAR(255),
+      created_at TIMESTAMPTZ,
+      embedding TEXT
+    )
+  SQL
+end
+
+def clear_analytics_db
+  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.delete_all
+end
+
 def clear_redis_db
-  keys = $redis.keys('chat:message:*') + $redis.keys('analytics:*')
+  keys = $redis.keys('chat:message:*')
   $redis.del(*keys) unless keys.empty?
 end
 
@@ -100,3 +119,5 @@ def generate_embedding(text)
   base_vector = Array.new(3072) { rng.rand * 2 - 1 }
   base_vector.map { |v| v + (rand - 0.5) * 0.1 }
 end
+
+ensure_analytics_test_table

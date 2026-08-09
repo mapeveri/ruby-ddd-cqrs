@@ -4,18 +4,15 @@ RSpec.describe "Given a user that wants the user engagement analytics", type: :r
   let(:chat_id) { SecureRandom.uuid }
   let(:sender_id) { SecureRandom.uuid }
   let(:receiver_id) { SecureRandom.uuid }
-  let(:projector) { Analytics::Infrastructure::Persistence::Redis::Projector::UserEngagementProjector.new }
 
   def send_message
-    projector.project_message_sent(
-      Chat::Domain::Message::MessageSent.new(**{
-        id: SecureRandom.uuid,
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        content: "hello",
-        chat_id: chat_id,
-        created_at: Time.now
-      })
+    Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.create!(
+      id: SecureRandom.uuid,
+      sender_id: sender_id,
+      receiver_id: receiver_id,
+      content: "hello",
+      chat_id: chat_id,
+      created_at: Time.now
     )
   end
 
@@ -24,13 +21,13 @@ RSpec.describe "Given a user that wants the user engagement analytics", type: :r
       3.times { send_message }
     end
 
-    it "returns 200 OK with the user engagement projection" do
+    it "returns 200 OK with the user engagement" do
       get "/api/v1/analytics/user_engagement/#{sender_id}"
 
       json = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
       expect(json["user_id"]).to eq(sender_id)
-      expect(json["total_messages"]).to eq("3")
+      expect(json["total_messages"]).to eq(3)
       expect(json["chats"]).to eq([ chat_id ])
     end
   end

@@ -6,6 +6,9 @@ module EventSubscriptions
           redis_chat_messages_projector: Container[:redis_chat_messages_projector]
         ),
         Chat::Infrastructure::Subscribers::Message::Ws::BroadcastMessageSentSubscriber.new,
+        Chat::Infrastructure::Subscribers::Message::Kafka::MessageStatePublisherSubscriber.new(
+          message_state_publisher: Container[:message_state_publisher]
+        ),
         Chat::Infrastructure::Subscribers::Message::Ai::ProcessMessageEmbeddingSubscriber.new(
           active_record_embedding_writer: Container[:active_record_embedding_writer],
           gemini_embedding_client: Container[:gemini_embedding_client],
