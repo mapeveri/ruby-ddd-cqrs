@@ -87,7 +87,7 @@ def clear_postgres_db
 end
 
 def ensure_analytics_test_table
-  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.connection.execute(<<~SQL)
+  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.connection.execute(<<~SQL)
     CREATE TABLE IF NOT EXISTS message_records (
       id VARCHAR(255) PRIMARY KEY,
       chat_id VARCHAR(255),
@@ -100,7 +100,7 @@ def ensure_analytics_test_table
 end
 
 def clear_analytics_db
-  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.delete_all
+  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.delete_all
 end
 
 def clear_redis_db

@@ -5,7 +5,7 @@ module Analytics
         module ReadModels
           class SqlUserEngagementReadModel < Analytics::Application::Queries::GetUserEngagementReadModel
             def find_by_user_id(user_id:)
-              records = MessageRecord.where("sender_id = :user_id OR receiver_id = :user_id", user_id: user_id.to_s)
+              records = MessageStateRecord.where("sender_id = :user_id OR receiver_id = :user_id", user_id: user_id.to_s)
               return nil unless records.exists?
 
               {
@@ -20,7 +20,7 @@ module Analytics
             private
 
             def chats(user_id)
-              MessageRecord.where("sender_id = :user_id OR receiver_id = :user_id", user_id: user_id).distinct.pluck(:chat_id)
+              MessageStateRecord.where("sender_id = :user_id OR receiver_id = :user_id", user_id: user_id).distinct.pluck(:chat_id)
             end
           end
         end

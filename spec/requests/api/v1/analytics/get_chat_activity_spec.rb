@@ -6,7 +6,7 @@ RSpec.describe "Given a user that wants the chat activity analytics", type: :req
   let(:receiver_id) { SecureRandom.uuid }
 
   def send_message
-    Analytics::Infrastructure::Persistence::AnalyticsDb::MessageRecord.create!(
+    Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.create!(
       id: SecureRandom.uuid,
       sender_id: sender_id,
       receiver_id: receiver_id,
