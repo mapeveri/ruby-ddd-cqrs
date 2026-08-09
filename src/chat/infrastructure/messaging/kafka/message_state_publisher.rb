@@ -7,8 +7,7 @@ class Chat::Infrastructure::Messaging::Kafka::MessageStatePublisher
       { "field" => "content", "type" => "string" },
       { "field" => "sender_id", "type" => "string" },
       { "field" => "receiver_id", "type" => "string" },
-      { "field" => "created_at", "type" => "int64", "name" => "org.apache.kafka.connect.data.Timestamp" },
-      { "field" => "embedding", "type" => "string", "optional" => true }
+      { "field" => "created_at", "type" => "int64", "name" => "org.apache.kafka.connect.data.Timestamp" }
     ],
     "optional" => false,
     "name" => "messages"
@@ -47,8 +46,7 @@ class Chat::Infrastructure::Messaging::Kafka::MessageStatePublisher
       "content" => record.content,
       "sender_id" => record.sender_id,
       "receiver_id" => record.receiver_id,
-      "created_at" => timestamp_millis(record.created_at),
-      "embedding" => record.embedding.nil? ? nil : JSON.generate(record.embedding)
+      "created_at" => timestamp_millis(record.created_at)
     }
   end
 

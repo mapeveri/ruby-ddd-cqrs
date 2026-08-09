@@ -94,8 +94,7 @@ def ensure_analytics_test_table
       content TEXT,
       sender_id VARCHAR(255),
       receiver_id VARCHAR(255),
-      created_at TIMESTAMPTZ,
-      embedding TEXT
+      created_at TIMESTAMPTZ
     )
   SQL
 end

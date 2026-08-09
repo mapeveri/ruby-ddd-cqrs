@@ -63,9 +63,7 @@ class Container
   end
 
   register :active_record_embedding_writer do
-    Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new(
-      message_state_publisher: Container[:message_state_publisher]
-    )
+    Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new
   end
 
   register :event_bus do
