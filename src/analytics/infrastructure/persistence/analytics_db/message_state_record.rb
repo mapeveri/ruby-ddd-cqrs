@@ -2,7 +2,7 @@ module Analytics
   module Infrastructure
     module Persistence
       module AnalyticsDb
-        class MessageStateRecord < ApplicationRecord
+        class MessageStateRecord < AnalyticsRecord
           self.table_name = "message_records"
         end
       end
