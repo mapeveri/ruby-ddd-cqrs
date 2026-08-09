@@ -32,7 +32,7 @@ RSpec.describe Analytics::Infrastructure::Persistence::ActiveRecord::Repositorie
 
       expect(snapshot.state).to eq("c1" => { "message_count" => "9" })
       expect(snapshot.kafka_offset).to eq(200)
-      expect(AnalyticsSnapshotRecord.count).to eq(1)
+      expect(Analytics::Infrastructure::Persistence::ActiveRecord::AnalyticsSnapshotRecord.count).to eq(1)
     end
 
     it 'returns nil when no snapshot exists' do

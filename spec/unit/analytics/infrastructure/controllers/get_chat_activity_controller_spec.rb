@@ -1,6 +1,6 @@
 require 'unit_helper'
 
-RSpec.describe Api::V1::Analytics::GetChatActivityController, type: :controller do
+RSpec.describe Analytics::Infrastructure::Controllers::GetChatActivityController, type: :controller do
   let(:chat_id) { SecureRandom.uuid }
   let(:activity) { { "chat_id" => chat_id, "message_count" => "3" } }
   let(:query_bus) { QueryBusMock.new }

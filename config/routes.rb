@@ -10,11 +10,12 @@ Rails.application.routes.draw do
         post "/join", to: "post_join#call"
         get "/online_users", to: "online_users#call"
       end
-      namespace :analytics do
-        get "/chat_activity/:chat_id", to: "get_chat_activity#call"
-        get "/user_engagement/:user_id", to: "get_user_engagement#call"
-      end
     end
+  end
+
+  scope "/api/v1/analytics", module: "analytics/infrastructure/controllers" do
+    get "/chat_activity/:chat_id", to: "get_chat_activity#call"
+    get "/user_engagement/:user_id", to: "get_user_engagement#call"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

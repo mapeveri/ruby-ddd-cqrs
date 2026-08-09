@@ -1,6 +1,6 @@
 require 'unit_helper'
 
-RSpec.describe Api::V1::Analytics::GetUserEngagementController, type: :controller do
+RSpec.describe Analytics::Infrastructure::Controllers::GetUserEngagementController, type: :controller do
   let(:user_id) { SecureRandom.uuid }
   let(:engagement) { { "user_id" => user_id, "total_messages" => "5" } }
   let(:query_bus) { QueryBusMock.new }
