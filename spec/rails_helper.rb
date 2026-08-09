@@ -86,7 +86,7 @@ def clear_postgres_db
 end
 
 def clear_redis_db
-  keys = $redis.keys('chat:message:*')
+  keys = $redis.keys('chat:message:*') + $redis.keys('analytics:*')
   $redis.del(*keys) unless keys.empty?
 end
 
