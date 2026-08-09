@@ -5,7 +5,7 @@ module Analytics
         class ApplicationRecord < ActiveRecord::Base
           self.abstract_class = true
 
-          establish_connection(ENV.fetch("ANALYTICS_DATABASE_URL"))
+          connects_to database: { writing: :analytics }
         end
       end
     end

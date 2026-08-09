@@ -86,19 +86,6 @@ def clear_postgres_db
   tables.each { |table| ActiveRecord::Base.connection.execute("DELETE FROM #{table}") }
 end
 
-def ensure_analytics_test_table
-  Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.connection.execute(<<~SQL)
-    CREATE TABLE IF NOT EXISTS message_records (
-      id VARCHAR(255) PRIMARY KEY,
-      chat_id VARCHAR(255),
-      content TEXT,
-      sender_id VARCHAR(255),
-      receiver_id VARCHAR(255),
-      created_at TIMESTAMPTZ
-    )
-  SQL
-end
-
 def clear_analytics_db
   Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.delete_all
 end
@@ -118,5 +105,3 @@ def generate_embedding(text)
   base_vector = Array.new(3072) { rng.rand * 2 - 1 }
   base_vector.map { |v| v + (rand - 0.5) * 0.1 }
 end
-
-ensure_analytics_test_table

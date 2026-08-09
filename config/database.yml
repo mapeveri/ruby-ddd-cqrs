@@ -22,15 +22,29 @@ default: &default
   password: <%= ENV["DATABASE_PASSWORD"] %>
 
 development:
-  <<: *default
-  database: <%= ENV["DATABASE_DB"] %>
+  primary:
+    <<: *default
+    database: <%= ENV["DATABASE_DB"] %>
+  analytics:
+    <<: *default
+    database: <%= ENV["ANALYTICS_DB"] %>
+    host: <%= ENV.fetch("ANALYTICS_DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("ANALYTICS_DATABASE_PORT", 5436) %>
+    migrations_paths: db/analytics_migrate
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: <%= ENV["DATABASE_DB"] %>
+  primary:
+    <<: *default
+    database: <%= ENV["DATABASE_DB"] %>
+  analytics:
+    <<: *default
+    database: <%= ENV["ANALYTICS_DB"] %>_test
+    host: <%= ENV.fetch("ANALYTICS_DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("ANALYTICS_DATABASE_PORT", 5436) %>
+    migrations_paths: db/analytics_migrate
 
 
 # Store production database in the storage/ directory, which by default
@@ -40,6 +54,11 @@ production:
     <<: *default
     database: <%= ENV["DATABASE_DB"] %>
     url: <%= ENV["DATABASE_URL"] %>
+  analytics:
+    <<: *default
+    database: chat_production_analytics
+    url: <%= ENV["ANALYTICS_DATABASE_URL"] %>
+    migrations_paths: db/analytics_migrate
   cache:
     <<: *default
     database: chat_production_cache
