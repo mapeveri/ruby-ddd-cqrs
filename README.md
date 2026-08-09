@@ -146,7 +146,7 @@ bin/rails db:create db:migrate
 ### 6. Bootstrap Kafka Infrastructure
 ```bash
 # Creates the compacted `chat.message.state` topic
-bin/bootstrap_kafka
+bin/bootstrap_kafka.rb
 
 # Registers the JDBC sink connector
 bin/register_sink_connector.sh
@@ -162,7 +162,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your application!
 ### Backfilling Message State
 Republish the full state of every existing message to the Kafka topic (idempotent upsert):
 ```bash
-bin/backfill_messages
+bin/backfill_messages.rb
 ```
 
 ### Consuming Messages
