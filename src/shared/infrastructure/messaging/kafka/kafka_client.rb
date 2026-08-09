@@ -8,8 +8,14 @@ class Shared::Infrastructure::Messaging::Kafka::KafkaClient
     @connection ||= Kafka.new(@brokers, logger: @logger)
   end
 
-  def ensure_topic(topic, num_partitions: 1, replication_factor: 1)
-    connection.create_topic(topic, num_partitions: num_partitions, replication_factor: replication_factor)
+  def ensure_topic(topic, num_partitions: 1, replication_factor: 1, cleanup_policy: nil)
+    config = cleanup_policy ? { "cleanup.policy" => cleanup_policy } : {}
+    connection.create_topic(
+      topic,
+      num_partitions: num_partitions,
+      replication_factor: replication_factor,
+      config: config
+    )
     @logger.info("[KafkaClient] Topic #{topic} created")
   rescue Kafka::Error
     @logger.info("[KafkaClient] Topic #{topic} already exists")
