@@ -5,20 +5,15 @@ RSpec.describe "Given a user that wants the user engagement analytics", type: :r
   let(:sender_id) { SecureRandom.uuid }
   let(:receiver_id) { SecureRandom.uuid }
 
-  def send_message
-    Analytics::Infrastructure::Persistence::AnalyticsDb::MessageStateRecord.create!(
-      id: SecureRandom.uuid,
-      sender_id: sender_id,
-      receiver_id: receiver_id,
-      content: "hello",
-      chat_id: chat_id,
-      created_at: Time.now
-    )
-  end
-
   describe "When the url is GET /api/v1/analytics/user_engagement/:user_id" do
     before do
-      3.times { send_message }
+      3.times do
+        MessageStateRecordMother.create(
+          chat_id: chat_id,
+          sender_id: sender_id,
+          receiver_id: receiver_id
+        )
+      end
     end
 
     it "returns 200 OK with the user engagement" do
