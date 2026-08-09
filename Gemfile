@@ -70,3 +70,5 @@ group :development, :test do
 end
 
 gem "fast-mcp", "~> 1.5"
+
+gem "ruby-kafka", "~> 1.5"
