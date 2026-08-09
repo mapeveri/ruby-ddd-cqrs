@@ -87,4 +87,35 @@ RSpec.describe Analytics::Infrastructure::Consumers::AnalyticsEventsConsumer do
       consumer.consume
     end
   end
+
+  describe '#restore_from_snapshots' do
+    it 'restores both projections when snapshots exist' do
+      chat_snapshot = Analytics::Domain::AnalyticsSnapshot.new(
+        projection_key: "chat_activity",
+        state: { "c1" => {} },
+        kafka_offset: 1
+      )
+      user_snapshot = Analytics::Domain::AnalyticsSnapshot.new(
+        projection_key: "user_engagement",
+        state: { "u1" => {} },
+        kafka_offset: 1
+      )
+
+      expect(snapshot_manager).to receive(:restore).with(projection_key: "chat_activity").and_return(chat_snapshot)
+      expect(snapshot_manager).to receive(:restore).with(projection_key: "user_engagement").and_return(user_snapshot)
+      expect(chat_activity_projector).to receive(:restore).with({ "c1" => {} })
+      expect(user_engagement_projector).to receive(:restore).with({ "u1" => {} })
+
+      consumer.send(:restore_from_snapshots)
+    end
+
+    it 'skips projections without a snapshot' do
+      expect(snapshot_manager).to receive(:restore).with(projection_key: "chat_activity").and_return(nil)
+      expect(snapshot_manager).to receive(:restore).with(projection_key: "user_engagement").and_return(nil)
+      expect(chat_activity_projector).not_to receive(:restore)
+      expect(user_engagement_projector).not_to receive(:restore)
+
+      consumer.send(:restore_from_snapshots)
+    end
+  end
 end

@@ -46,10 +46,10 @@ class Analytics::Infrastructure::Consumers::AnalyticsEventsConsumer
   private
 
     def restore_from_snapshots
-      snapshot = @snapshot_manager.restore("chat_activity")
+      snapshot = @snapshot_manager.restore(projection_key: "chat_activity")
       @chat_activity_projector.restore(snapshot.state) if snapshot
 
-      snapshot = @snapshot_manager.restore("user_engagement")
+      snapshot = @snapshot_manager.restore(projection_key: "user_engagement")
       @user_engagement_projector.restore(snapshot.state) if snapshot
     end
 
