@@ -31,7 +31,7 @@ RSpec.describe "Given a user that wants the user engagement analytics", type: :r
       expect(response).to have_http_status(:ok)
       expect(json["user_id"]).to eq(sender_id)
       expect(json["total_messages"]).to eq("3")
-      expect(json["chats"]).to eq([chat_id])
+      expect(json["chats"]).to eq([ chat_id ])
     end
   end
 

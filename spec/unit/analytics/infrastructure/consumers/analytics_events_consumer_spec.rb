@@ -80,7 +80,7 @@ RSpec.describe Analytics::Infrastructure::Consumers::AnalyticsEventsConsumer do
       expect(consumer).to receive(:restore_from_snapshots)
       expect(consumer).to receive(:handle)
 
-      messages = [double("message")]
+      messages = [ double("message") ]
       expect(consumer_instance).to receive(:each_message).and_yield(messages.first)
       expect(consumer_instance).to receive(:mark_message_as_processed).with(messages.first)
 
