@@ -5,6 +5,25 @@ class Container
     Chat::Infrastructure::Persistence::Redis::Projector::RedisChatMessagesProjector.new
   end
 
+  register :kafka_client do
+    Shared::Infrastructure::Messaging::Kafka::KafkaClient.new
+  end
+
+  register :message_state_producer do
+    Shared::Infrastructure::Messaging::Kafka::KafkaProducer.new(
+      kafka_client: Container[:kafka_client],
+      topic: ENV.fetch("KAFKA_MESSAGE_STATE_TOPIC"),
+      cleanup_policy: "compact"
+    )
+  end
+
+  register :message_state_publisher do
+    Chat::Infrastructure::Messaging::Kafka::MessageStatePublisher.new(
+      kafka_producer: Container[:message_state_producer],
+      enabled: !Rails.env.test?
+    )
+  end
+
   register :redis_embedding do
     Chat::Infrastructure::Persistence::Redis::Services::RedisEmbedding.new
   end
@@ -35,6 +54,14 @@ class Container
     )
   end
 
+  register :sql_chat_activity_read_model do
+    Analytics::Infrastructure::Persistence::AnalyticsDb::ReadModels::SqlChatActivityReadModel.new
+  end
+
+  register :sql_user_engagement_read_model do
+    Analytics::Infrastructure::Persistence::AnalyticsDb::ReadModels::SqlUserEngagementReadModel.new
+  end
+
   register :active_record_embedding_writer do
     Chat::Infrastructure::Persistence::ActiveRecord::Services::MessageEmbeddingWriter.new
   end
@@ -59,6 +86,18 @@ class Container
         Chat::Application::Message::Queries::SearchMessagesQuery,
         Chat::Application::Message::Queries::SearchMessagesQueryHandler.new(
           search_messages_read_model: Container[:search_messages_read_model],
+        )
+      )
+      bus.register(
+        Analytics::Application::Queries::GetChatActivityQuery,
+        Analytics::Application::Queries::GetChatActivityQueryHandler.new(
+          read_model: Container[:sql_chat_activity_read_model],
+        )
+      )
+      bus.register(
+        Analytics::Application::Queries::GetUserEngagementQuery,
+        Analytics::Application::Queries::GetUserEngagementQueryHandler.new(
+          read_model: Container[:sql_user_engagement_read_model],
         )
       )
     end

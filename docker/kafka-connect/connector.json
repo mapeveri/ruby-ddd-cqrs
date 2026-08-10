@@ -1,0 +1,26 @@
+{
+  "name": "messages-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "chat.message.state",
+    "connection.url": "jdbc:postgresql://localhost:5436/chat_analytics",
+    "connection.user": "postgres",
+    "connection.password": "app123456",
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "id",
+    "delete.enabled": "true",
+    "auto.create": "false",
+    "auto.evolve": "false",
+    "table.name.format": "message_records",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "true",
+    "topic.creation.enable": "true",
+    "topic.creation.default.replication.factor": "1",
+    "topic.creation.default.partitions": "1",
+    "topic.creation.default.cleanup.policy": "compact"
+  }
+}
